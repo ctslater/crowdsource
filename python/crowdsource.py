@@ -431,7 +431,7 @@ def compute_centroids(x, y, psflist, flux, im, resid, weight):
             psfs[j][i, :, :] = psfmod.central_stamp(psflist[j][i],
                                                     censize=centroidsize)
     stampsz = psfs[0].shape[-1]
-    stampszo2 = (stampsz-1)/2
+    stampszo2 = (stampsz-1)//2
     dx = numpy.arange(stampsz, dtype='i4')-stampszo2
     dx = dx.reshape(-1, 1)
     dy = dx.copy().reshape(1, -1)

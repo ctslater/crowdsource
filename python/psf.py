@@ -33,7 +33,7 @@ def central_stamp(stamp, censize=19):
     if stampsz == censize:
         return stamp
     elif stampsz > censize:
-        trim = (stamp.shape[-1] - censize)/2
+        trim = (stamp.shape[-1] - censize)//2
         f = trim
         l = stampsz - trim
         return stamp[..., f:l, f:l]
@@ -517,7 +517,7 @@ def fill_param_matrix(param, order):
 
 
 def extract_params(param, order, pixsz):
-    nperpar = (order+1)*(order+2)/2
+    nperpar = (order+1)*(order+2)//2
     if (pixsz**2.+3)*nperpar != len(param):
         raise ValueError('Bad parameter vector size?')
     return [fill_param_matrix(x, order) for x in
@@ -528,7 +528,7 @@ def extract_params(param, order, pixsz):
 
 
 def extract_params_moffat(param, order):
-    nperpar = (order+1)*(order+2)/2
+    nperpar = (order+1)*(order+2)//2
     if 3*nperpar != len(param):
         raise ValueError('Bad parameter vector size?')
     return [fill_param_matrix(x, order) for x in
@@ -618,7 +618,7 @@ def fit_variable_moffat_psf(x, y, xcen, ycen, stamp, imstamp, modstamp,
         tchi = (resid - polyval2d(x/1000., y/1000., mat))*isig
         return damper(tchi, 3.).reshape(-1)
 
-    nperpar = (order+1)*(order+2)/2
+    nperpar = (order+1)*(order+2)//2
     guess = numpy.zeros(3*nperpar+1, dtype='f4')
     constanttermindex = nperpar - order - 1
     guess[0+constanttermindex] = 4.  # 1" PSF
@@ -949,7 +949,7 @@ def linear_static_wing_from_record(record, filter='g'):
     normalizesz = 59
     staticstamp /= numpy.sum(central_stamp(staticstamp, normalizesz))
     order = 1 if numpy.any(record['resparam'][1:, ...]) else 0
-    nperpar = (order+1)*(order+2)/2
+    nperpar = (order+1)*(order+2)//2
     modresid = VariablePixelizedPSF(
         fill_param_matrix(record['resparam'][:nperpar], order), normalize=-1)
     modwing = stamp2model(modelstampcorn(record['convparam'], staticstamp,
